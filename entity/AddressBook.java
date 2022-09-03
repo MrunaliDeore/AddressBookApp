@@ -3,6 +3,8 @@ package com.example.adressbookapp.entity;
 import com.example.adressbookapp.dto.AddressBookDTO;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "addressbook")
@@ -28,7 +30,15 @@ public class AddressBook {
     String lastname;
     int phonenum;
     String emailid;
-    String address;
+
+    /**
+     * implement element collection for address
+     * to store multiple address for same id
+     * with created new table as a 'address'
+     */
+    @ElementCollection
+    @CollectionTable(name = "address", joinColumns = @JoinColumn(name = "id"))
+    List<String> address;
 
     public  AddressBook() {}
 
@@ -76,11 +86,11 @@ public class AddressBook {
     }
 
     public String getAddress() {
-        return address;
+        return address.toString();
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = Collections.singletonList(address);
     }
 
     //dto costructor generate for add
@@ -88,6 +98,7 @@ public class AddressBook {
         this.id = id;
         this.firstname = addressBookDTO.firstname;
         this.lastname = addressBookDTO.lastname;
+        this.address = Collections.singletonList(addressBookDTO.address);
     }
 
     //generete constructor for update
@@ -95,5 +106,6 @@ public class AddressBook {
         this.id = id;
         this.firstname = addressBook.firstname;
         this.lastname = addressBook.lastname;
+        this.address = addressBook.address;
     }
 }

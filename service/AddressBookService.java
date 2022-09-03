@@ -41,11 +41,11 @@ public class AddressBookService {
     }
 
     //update by id
-    public AddressBook editEmployee(AddressBook addressBook, int id) {
+    public AddressBook editAddress(AddressBook addressBook, int id) {
         if (addressBookRepository.findById(id).isPresent()) {
             AddressBook newData = new AddressBook(id, addressBook);
             return addressBookRepository.save(newData);
         }
-        return addressBook;
+        return null;
     }
 }
